@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dzbl.mapper.CustomMedicalRecordMapper">
+
+  <select id="findMedicalRecordList" resultType="hashMap">
+	  select a.*, b.name patient, c.name doctor from medical_record a 
+	  left join user b on a.user_id = b.id
+	  left join user c on a.doc_id = c.id
+	  where 1=1
+	  <if test="userId != null and userId != 0 ">
+		and a.user_id = #{userId}
+	  </if>
+	  order by a.create_time DESC
+	  limit #{beginIndex}, #{pageSize}
+  </select>
+  
+  <select id="findMedicalRecordCount" resultType="int">
+	  select count(a.id) from medical_record a 
+	  where 1=1
+	    <if test="userId != null and userId != 0 ">
+		and a.user_id = #{userId}
+	  </if>
+  </select>
+  
+    <select id="findMedicalRecordCondition" resultType="hashMap">
+	  select a.*, b.name patient, c.name doctor from medical_record a 
+	  left join user b on a.user_id = b.id
+	  left join user c on a.doc_id = c.id
+	  where 1=1
+	  <if test="type != null and type != '' ">
+		and a.type like CONCAT('%',#{type},'%')
+	  </if>
+	  <if test="patient != null and patient != '' ">
+		and b.name like CONCAT('%',#{patient},'%')
+	  </if>
+	   <if test="date != null and date != '' ">
+		and a.create_time like CONCAT('%',#{date},'%')
+	  </if>
+	  <if test="docId != null and docId != '' ">
+		and a.doc_id = #{docId}
+	  </if>
+	  order by a.create_time DESC
+	  limit #{beginIndex}, #{pageSize}
+  </select>
+  
+  <select id="findMedicalRecordConditionCount" resultType="int">
+	  select count(a.id) from medical_record a 
+	  left join user b on a.user_id = b.id
+	  where 1=1
+	    <if test="type != null and type != '' ">
+		and a.type like CONCAT('%',#{type},'%')
+	  </if>
+	   <if test="patient != null and patient != '' ">
+		and b.name like CONCAT('%',#{patient},'%')
+	  </if>
+	   <if test="date != null and date != '' ">
+		and a.create_time like CONCAT('%',#{date},'%')
+	  </if>
+	   <if test="docId != null and docId != '' ">
+		and a.doc_id = #{docId}
+	  </if>
+	  
+  </select>
+</mapper>

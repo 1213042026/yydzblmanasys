@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dzbl.mapper.CustomUserMapper">
+
+  <select id="findUserList" resultType="hashMap">
+	  select a.* from user a where a.type = 2 and a.is_delete = 0
+	  order by a.crerate_time DESC
+	  limit #{beginIndex}, #{pageSize}
+  </select>
+  
+  <select id="findUserCount" resultType="int">
+	  select count(a.id) from user a where a.type = 2 and a.is_delete = 0
+  </select>
+  
+    <select id="findPatientList" resultType="hashMap">
+	  select a.* from user a where a.type = 1 and a.is_delete = 0
+	  order by a.crerate_time DESC
+	  limit #{beginIndex}, #{pageSize}
+  </select>
+  
+	<select id="findPatientCount" resultType="int">
+	  select count(a.id) from user a where a.type = 1 and a.is_delete = 0
+  </select>
+</mapper>
